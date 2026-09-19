@@ -1,13 +1,25 @@
-export function Banner() {
+import { useState, useEffect } from 'react';
+import defaultBanner from '../../assets/banner.jpg';
+
+export function Banner({ src = defaultBanner, alt = "Promoción de comida rápida QuickOrder" }) {
+    const [imgSrc, setImgSrc] = useState(src);
+
+    useEffect(() => {
+        setImgSrc(src || defaultBanner);
+    }, [src]);
+
     return (
-        <>
-            <section className="hero-banner">
-                <div className="banner-badge">🔥 Menú Rápido & Delicioso</div>
-                <h1 className="banner-title">Pide tus Platillos Favoritos al Instante</h1>
-                <p className="banner-subtitle">
-                    Explora nuestro menú seleccionado, ingredientes frescos y entrega rápida a tu mesa o domicilio.
-                </p>
-            </section>
-        </>
+        <section className="hero-banner">
+            <img
+                src={imgSrc}
+                alt={alt}
+                className="hero-banner-img"
+                onError={() => {
+                    if (imgSrc !== defaultBanner) {
+                        setImgSrc(defaultBanner);
+                    }
+                }}
+            />
+        </section>
     );
 }
