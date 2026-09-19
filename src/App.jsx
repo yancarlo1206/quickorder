@@ -1,8 +1,19 @@
 import { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import './App.css';
-import { Header } from './components/layout/Header';
+
+// Context Providers
+import { ToastProvider } from './context/ToastContext';
+import { CartProvider } from './context/CartContext';
+
+// Layout & Common Components
+import { Sidebar } from './components/layout/Sidebar';
+import { MobileTopBar } from './components/layout/MobileTopBar';
+import { CartDrawer } from './components/layout/CartDrawer';
+import { ToastContainer } from './components/common/ToastContainer';
 import { Footer } from './components/layout/Footer';
+
+// Pages
 import { CatalogoPage } from './pages/CatalogoPage';
 import { ProductosPage } from './pages/ProductosPage';
 import { CategoriasPage } from './pages/CategoriasPage';
@@ -12,6 +23,7 @@ import { UsuariosPage } from './pages/UsuariosPage';
 import { InformacionPage } from './pages/InformacionPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 
+// Services
 import { obtenerProductos } from './services/productService';
 import { obtenerCategorias } from './services/categoryService';
 import { obtenerClientes } from './services/clientService';
@@ -19,9 +31,9 @@ import { obtenerEstadosOrden } from './services/orderStatusService';
 import { obtenerUsuarios } from './services/userService';
 import { obtenerInformacion } from './services/informationService';
 
-function App() {
-  const [categoriaActiva, setCategoriaActiva] = useState("Inicio");
-  const [cartCount, setCartCount] = useState(0);
+function AppContent() {
+  const [categoriaActiva, setCategoriaActiva] = useState('Inicio');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const [productos, setProductos] = useState([]);
   const [categorias, setCategorias] = useState([]);
@@ -43,7 +55,7 @@ function App() {
     setCargandoProductos(true);
     obtenerProductos()
       .then((data) => {
-        setProductos(data);
+        setProductos(Array.isArray(data) ? data : []);
         setCargandoProductos(false);
       })
       .catch((error) => {
@@ -56,7 +68,7 @@ function App() {
     setCargandoCategorias(true);
     obtenerCategorias()
       .then((data) => {
-        setCategorias(data);
+        setCategorias(Array.isArray(data) ? data : []);
         setCargandoCategorias(false);
       })
       .catch((error) => {
@@ -69,7 +81,7 @@ function App() {
     setCargandoClientes(true);
     obtenerClientes()
       .then((data) => {
-        setClientes(data);
+        setClientes(Array.isArray(data) ? data : []);
         setCargandoClientes(false);
       })
       .catch((error) => {
@@ -82,7 +94,7 @@ function App() {
     setCargandoEstadosOrden(true);
     obtenerEstadosOrden()
       .then((data) => {
-        setEstadosOrden(data);
+        setEstadosOrden(Array.isArray(data) ? data : []);
         setCargandoEstadosOrden(false);
       })
       .catch((error) => {
@@ -95,7 +107,7 @@ function App() {
     setCargandoUsuarios(true);
     obtenerUsuarios()
       .then((data) => {
-        setUsuarios(data);
+        setUsuarios(Array.isArray(data) ? data : []);
         setCargandoUsuarios(false);
       })
       .catch((error) => {
@@ -108,7 +120,7 @@ function App() {
     setCargandoInformacion(true);
     obtenerInformacion()
       .then((data) => {
-        setInformacion(data);
+        setInformacion(Array.isArray(data) ? data : []);
         setCargandoInformacion(false);
       })
       .catch((error) => {
@@ -126,123 +138,146 @@ function App() {
     cargarInformacion();
   }, []);
 
-  const handleAddToCart = () => {
-    setCartCount((prev) => prev + 1);
-  };
-
   const handleSeleccionarCategoriaFooter = (cat) => {
     setCategoriaActiva(cat);
     navigate('/');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <div className="app-layout">
-      <Header 
+    <div className="app-shell">
+      {/* Barra superior visible en móviles */}
+      <MobileTopBar onOpenSidebar={() => setIsSidebarOpen(true)} />
+
+      {/* Menú Vertical Lateral Izquierdo */}
+      <Sidebar
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
         categorias={categorias}
-        categoriaActiva={categoriaActiva} 
-        onSelectCategoria={setCategoriaActiva}
-        cartCount={cartCount}
+        categoriaActiva={categoriaActiva}
+        onSelectCategoria={(cat) => {
+          setCategoriaActiva(cat);
+          navigate('/');
+        }}
       />
-      
-      <main className="app-container">
-        <Routes>
-          {/* Ruta del Catálogo Principal */}
-          <Route 
-            path="/" 
-            element={
-              <CatalogoPage 
-                productos={productos}
-                categoriaActiva={categoriaActiva}
-                onAddToCart={handleAddToCart}
-                cargando={cargandoProductos}
-              />
-            } 
-          />
 
-          {/* Ruta de Gestión de Productos */}
-          <Route 
-            path="/productos" 
-            element={
-              <ProductosPage 
-                productos={productos}
-                categorias={categorias}
-                onActualizarProductos={cargarProductos}
-                cargando={cargandoProductos}
-              />
-            } 
-          />
+      {/* Panel Deslizante de Carrito & Checkout */}
+      <CartDrawer />
 
-          {/* Ruta de Gestión de Categorías */}
-          <Route 
-            path="/categorias" 
-            element={
-              <CategoriasPage 
-                categorias={categorias}
-                onActualizarCategorias={cargarCategorias}
-                cargando={cargandoCategorias}
-              />
-            } 
-          />
+      {/* Notificaciones Toasts y Modales de Confirmación */}
+      <ToastContainer />
 
-          {/* Ruta de Gestión de Clientes */}
-          <Route 
-            path="/clientes" 
-            element={
-              <ClientesPage 
-                clientes={clientes}
-                onActualizarClientes={cargarClientes}
-                cargando={cargandoClientes}
-              />
-            } 
-          />
+      {/* Área Principal de Contenido */}
+      <div className="app-main-viewport">
+        <main className="main-content-area">
+          <Routes>
+            {/* Ruta del Catálogo Principal */}
+            <Route
+              path="/"
+              element={
+                <CatalogoPage
+                  productos={productos}
+                  categoriaActiva={categoriaActiva}
+                  cargando={cargandoProductos}
+                />
+              }
+            />
 
-          {/* Ruta de Gestión de Estados de Orden */}
-          <Route 
-            path="/estados-orden" 
-            element={
-              <EstadosOrdenPage 
-                estadosOrden={estadosOrden}
-                onActualizarEstadosOrden={cargarEstadosOrden}
-                cargando={cargandoEstadosOrden}
-              />
-            } 
-          />
+            {/* Ruta de Gestión de Productos */}
+            <Route
+              path="/productos"
+              element={
+                <ProductosPage
+                  productos={productos}
+                  categorias={categorias}
+                  onActualizarProductos={cargarProductos}
+                  cargando={cargandoProductos}
+                />
+              }
+            />
 
-          {/* Ruta de Gestión de Usuarios */}
-          <Route 
-            path="/usuarios" 
-            element={
-              <UsuariosPage 
-                usuarios={usuarios}
-                onActualizarUsuarios={cargarUsuarios}
-                cargando={cargandoUsuarios}
-              />
-            } 
-          />
+            {/* Ruta de Gestión de Categorías */}
+            <Route
+              path="/categorias"
+              element={
+                <CategoriasPage
+                  categorias={categorias}
+                  onActualizarCategorias={cargarCategorias}
+                  cargando={cargandoCategorias}
+                />
+              }
+            />
 
-          {/* Ruta de Configuración de Información */}
-          <Route 
-            path="/informacion" 
-            element={
-              <InformacionPage 
-                informacion={informacion}
-                onActualizarInformacion={cargarInformacion}
-                cargando={cargandoInformacion}
-              />
-            } 
-          />
+            {/* Ruta de Gestión de Clientes */}
+            <Route
+              path="/clientes"
+              element={
+                <ClientesPage
+                  clientes={clientes}
+                  onActualizarClientes={cargarClientes}
+                  cargando={cargandoClientes}
+                />
+              }
+            />
 
-          {/* Ruta 404 para cualquier otra URL */}
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      </main>
+            {/* Ruta de Gestión de Estados de Orden */}
+            <Route
+              path="/estados-orden"
+              element={
+                <EstadosOrdenPage
+                  estadosOrden={estadosOrden}
+                  onActualizarEstadosOrden={cargarEstadosOrden}
+                  cargando={cargandoEstadosOrden}
+                />
+              }
+            />
 
-      {/* Footer integrado */}
-      <Footer 
-        categorias={categorias}
-        setCategoriaActiva={handleSeleccionarCategoriaFooter}
-      />
+            {/* Ruta de Gestión de Usuarios */}
+            <Route
+              path="/usuarios"
+              element={
+                <UsuariosPage
+                  usuarios={usuarios}
+                  onActualizarUsuarios={cargarUsuarios}
+                  cargando={cargandoUsuarios}
+                />
+              }
+            />
+
+            {/* Ruta de Configuración de Información */}
+            <Route
+              path="/informacion"
+              element={
+                <InformacionPage
+                  informacion={informacion}
+                  onActualizarInformacion={cargarInformacion}
+                  cargando={cargandoInformacion}
+                />
+              }
+            />
+
+            {/* Ruta 404 */}
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </main>
+
+        {/* Footer Integrado */}
+        <Footer
+          categorias={categorias}
+          setCategoriaActiva={handleSeleccionarCategoriaFooter}
+        />
+      </div>
     </div>
+  );
+}
+
+export function App() {
+  return (
+    <ToastProvider>
+      <CartProvider>
+        <AppContent />
+      </CartProvider>
+    </ToastProvider>
   );
 }
 
