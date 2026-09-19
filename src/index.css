@@ -1,14 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 :root {
-  --bg-color: #f8fafc;
+  --bg-color: #faf6f1;
   --surface-color: #ffffff;
   --card-bg: #ffffff;
-  --text-main: #0f172a;
-  --text-muted: #64748b;
-  --border-color: #e2e8f0;
-  --primary-blue: #0284c7;
-  --primary-hover: #0369a1;
+  --text-main: #2e1a0f;
+  --text-muted: #7a6a5c;
+  --border-color: #e6dccf;
+  --primary-blue: #6f4e37;
+  /* marrón café tostado */
+  --primary-hover: #4e3524;
+  /* marrón más oscuro al hacer hover */
+  --accent-gold: #c9962c;
+  /* dorado, para acentos/detalles */
   --font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.06), 0 2px 6px -2px rgb(0 0 0 / 0.04);
@@ -36,5 +40,3 @@ body {
   display: flex;
   flex-direction: column;
 }
-
-
