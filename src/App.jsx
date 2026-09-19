@@ -3,6 +3,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import './App.css';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
+import { CarritoDrawer } from './components/pedido/CarritoDrawer';
 import { CatalogoPage } from './pages/CatalogoPage';
 import { ProductosPage } from './pages/ProductosPage';
 import { CategoriasPage } from './pages/CategoriasPage';
@@ -21,7 +22,10 @@ import { obtenerInformacion } from './services/informationService';
 
 function App() {
   const [categoriaActiva, setCategoriaActiva] = useState("Inicio");
-  const [cartCount, setCartCount] = useState(0);
+  
+  // Estado del Carrito / Pedido
+  const [cartItems, setCartItems] = useState([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   const [productos, setProductos] = useState([]);
   const [categorias, setCategorias] = useState([]);
@@ -126,9 +130,52 @@ function App() {
     cargarInformacion();
   }, []);
 
-  const handleAddToCart = () => {
-    setCartCount((prev) => prev + 1);
+  // Agregar un producto al carrito
+  const handleAddToCart = (producto) => {
+    setCartItems((prevItems) => {
+      const existe = prevItems.find((item) => item.id === producto.id);
+      if (existe) {
+        const maxStock = producto.stock !== undefined ? Number(producto.stock) : 999;
+        if (existe.cantidad >= maxStock) {
+          alert(`Has alcanzado el límite de stock disponible (${maxStock} unidades) para este producto.`);
+          return prevItems;
+        }
+        return prevItems.map((item) =>
+          item.id === producto.id ? { ...item, cantidad: (item.cantidad || 1) + 1 } : item
+        );
+      }
+      return [...prevItems, { ...producto, cantidad: 1 }];
+    });
+    // Abrir el carrito para feedback visual inmediato
+    setIsCartOpen(true);
   };
+
+  // Modificar cantidad de un producto
+  const handleUpdateQuantity = (productoId, nuevaCantidad) => {
+    if (nuevaCantidad <= 0) {
+      handleRemoveFromCart(productoId);
+      return;
+    }
+    setCartItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === productoId ? { ...item, cantidad: nuevaCantidad } : item
+      )
+    );
+  };
+
+  // Eliminar un producto del carrito
+  const handleRemoveFromCart = (productoId) => {
+    setCartItems((prevItems) => prevItems.filter((item) => item.id !== productoId));
+  };
+
+  // Vaciar carrito completo
+  const handleClearCart = () => {
+    if (window.confirm('¿Estás seguro de que deseas vaciar tu pedido?')) {
+      setCartItems([]);
+    }
+  };
+
+  const totalCartCount = cartItems.reduce((acc, item) => acc + (item.cantidad || 1), 0);
 
   const handleSeleccionarCategoriaFooter = (cat) => {
     setCategoriaActiva(cat);
@@ -141,7 +188,8 @@ function App() {
         categorias={categorias}
         categoriaActiva={categoriaActiva} 
         onSelectCategoria={setCategoriaActiva}
-        cartCount={cartCount}
+        cartCount={totalCartCount}
+        onOpenCart={() => setIsCartOpen(true)}
       />
       
       <main className="app-container">
@@ -236,6 +284,16 @@ function App() {
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
+
+      {/* Drawer / Modal lateral del Carrito */}
+      <CarritoDrawer 
+        isOpen={isCartOpen}
+        onClose={() => setIsCartOpen(false)}
+        cartItems={cartItems}
+        onUpdateQuantity={handleUpdateQuantity}
+        onRemoveItem={handleRemoveFromCart}
+        onClearCart={handleClearCart}
+      />
 
       {/* Footer integrado */}
       <Footer 
