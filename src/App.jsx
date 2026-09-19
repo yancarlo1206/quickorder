@@ -15,6 +15,7 @@ import { Footer } from './components/layout/Footer';
 
 // Pages
 import { CatalogoPage } from './pages/CatalogoPage';
+import { PedidosPage } from './pages/PedidosPage';
 import { ProductosPage } from './pages/ProductosPage';
 import { CategoriasPage } from './pages/CategoriasPage';
 import { ClientesPage } from './pages/ClientesPage';
@@ -182,6 +183,9 @@ function AppContent() {
                 />
               }
             />
+
+            {/* Ruta de Gestión de Pedidos (Nueva) */}
+            <Route path="/pedidos" element={<PedidosPage />} />
 
             {/* Ruta de Gestión de Productos */}
             <Route

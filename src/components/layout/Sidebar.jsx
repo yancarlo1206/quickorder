@@ -28,10 +28,11 @@ export function Sidebar({ isOpen, onClose, categorias = [], categoriaActiva, onS
     {
       group: 'Administración',
       items: [
+        { path: '/pedidos', label: 'Gestión Pedidos', icon: ClipboardList, badge: 'En Vivo' },
         { path: '/productos', label: 'Productos', icon: Package },
         { path: '/categorias', label: 'Categorías', icon: FolderTree },
         { path: '/clientes', label: 'Clientes', icon: Users },
-        { path: '/estados-orden', label: 'Estados Orden', icon: ClipboardList },
+        { path: '/estados-orden', label: 'Estados Orden', icon: Sparkles },
         { path: '/usuarios', label: 'Usuarios', icon: UserCheck },
         { path: '/informacion', label: 'Información', icon: Info },
       ],

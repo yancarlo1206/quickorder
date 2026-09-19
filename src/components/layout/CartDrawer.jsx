@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useCart } from '../../context/CartContext';
 import { useToast } from '../../context/ToastContext';
+import { crearPedido } from '../../services/orderService';
 import {
   X,
   Trash2,
@@ -68,10 +69,22 @@ export function CartDrawer() {
       return;
     }
 
+    // Registrar pedido en backend
+    crearPedido({
+      cliente: formData.nombre,
+      telefono: formData.telefono,
+      tipoEntrega: formData.tipoEntrega,
+      ubicacion: formData.direccion,
+      metodoPago: formData.metodoPago,
+      items: cartItems.map((i) => ({ id: i.id, nombre: i.nombre, precio: i.precio, cantidad: i.cantidad })),
+      total: cartTotal,
+      notas: formData.notas
+    });
+
     const mensaje = encodeURIComponent(generarMensajePedido());
     const whatsappUrl = `https://wa.me/?text=${mensaje}`;
     window.open(whatsappUrl, '_blank');
-    addToast('¡Pedido generado! Abriendo WhatsApp...', 'success');
+    addToast('¡Pedido registrado y enviado a WhatsApp!', 'success');
   };
 
   const handleCopiarPedido = () => {
