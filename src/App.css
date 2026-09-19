@@ -365,19 +365,24 @@
 /* Footer Styling (inline in App.jsx) */
 .app-footer {
   margin-top: auto;
-  background-color: #ffffff;
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
   border-top: 1px solid var(--border-color);
   width: 100%;
+  box-shadow: inset 0 1px 0 rgba(148, 163, 184, 0.18);
 }
 
 .footer-inner {
   max-width: 1240px;
   margin: 0 auto;
-  padding: 48px 24px 32px 24px;
+  padding: 32px 24px 24px 24px;
   display: flex;
   justify-content: space-between;
   gap: 40px;
   flex-wrap: wrap;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 24px;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.04);
 }
 
 .footer-brand-section {
@@ -388,33 +393,44 @@
 }
 
 .footer-brand {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 10px;
+  width: fit-content;
+  background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
+  border: 1px solid #dbeafe;
+  border-radius: 12px;
+  padding: 8px 12px;
+  box-shadow: 0 8px 20px rgba(2, 132, 199, 0.06);
 }
 
 .footer-description {
   font-size: 0.9rem;
   color: var(--text-muted);
-  line-height: 1.5;
+  line-height: 1.6;
+  margin: 0;
 }
 
 .footer-links-group {
   display: flex;
   gap: 48px;
   flex-wrap: wrap;
+  align-items: flex-start;
 }
 
 .footer-column {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  min-width: 180px;
 }
 
 .footer-heading {
   font-size: 0.95rem;
   font-weight: 700;
   color: #0f172a;
+  letter-spacing: 0.02em;
+  margin: 0;
 }
 
 .footer-list {
@@ -423,6 +439,11 @@
   flex-direction: column;
   gap: 8px;
   padding: 0;
+  margin: 0;
+}
+
+.footer-list li {
+  display: flex;
 }
 
 .footer-list button {
@@ -432,27 +453,32 @@
   font-size: 0.875rem;
   color: var(--text-muted);
   cursor: pointer;
-  padding: 0;
+  padding: 6px 10px 6px 0;
   text-align: left;
-  transition: color 0.2s;
+  transition: all 0.2s ease;
+  border-radius: 8px;
 }
 
 .footer-list button:hover {
   color: #0284c7;
+  transform: translateX(4px);
 }
 
 .footer-info {
   font-size: 0.875rem;
   color: var(--text-muted);
-  line-height: 1.4;
+  line-height: 1.5;
+  margin: 0;
 }
 
 .footer-bottom {
-  border-top: 1px solid #f1f5f9;
-  padding: 20px 24px;
+  background: linear-gradient(180deg, #0f172a 0%, #111827 100%);
+  color: #cbd5e1;
+  padding: 18px 24px;
   text-align: center;
   font-size: 0.85rem;
-  color: var(--text-muted);
+  margin-top: 16px;
+  letter-spacing: 0.01em;
 }
 
 /* Responsive Media Queries */
