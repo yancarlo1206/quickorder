@@ -48,9 +48,16 @@ export function FormularioUsuario({ usuarioAEditar, onGuardar, onCancelar, guard
   const esEdicion = Boolean(usuarioAEditar);
 
   return (
-    <div className="card-form-container">
-      <div className="form-header">
-        <h3 className="form-title">
+    <div
+      className="card-form-container"
+      style={{
+        background: 'linear-gradient(180deg, #ffffff 0%, #f8fbff 100%)',
+        border: '1px solid #dbeafe',
+        boxShadow: '0 12px 28px rgba(15, 23, 42, 0.08)'
+      }}
+    >
+      <div className="form-header" style={{ borderBottom: '1px solid #e2e8f0' }}>
+        <h3 className="form-title" style={{ color: '#0f172a' }}>
           {esEdicion ? '✏️ Editar Usuario' : '➕ Registrar Nuevo Usuario'}
         </h3>
         <p className="form-subtitle">
@@ -129,12 +136,27 @@ export function FormularioUsuario({ usuarioAEditar, onGuardar, onCancelar, guard
 
         {/* Botones de Acción */}
         <div className="form-actions">
-          <button type="submit" className="btn-save" disabled={guardando}>
+          <button
+            type="submit"
+            className="btn-save"
+            disabled={guardando}
+            style={{
+              background: 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)',
+              boxShadow: '0 10px 18px rgba(2, 132, 199, 0.22)',
+              borderRadius: '12px'
+            }}
+          >
             {guardando ? 'Guardando...' : esEdicion ? 'Actualizar Usuario' : 'Guardar Usuario'}
           </button>
           
           {esEdicion && (
-            <button type="button" className="btn-cancel" onClick={onCancelar} disabled={guardando}>
+            <button
+              type="button"
+              className="btn-cancel"
+              onClick={onCancelar}
+              disabled={guardando}
+              style={{ borderRadius: '12px' }}
+            >
               Cancelar Edición
             </button>
           )}
