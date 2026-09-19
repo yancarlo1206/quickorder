@@ -3,34 +3,36 @@
    ========================================================================== */
 
 :root {
-  /* Color Palette */
-  --primary: #2563eb;
-  --primary-hover: #1d4ed8;
-  --primary-light: #eff6ff;
-  --primary-glow: rgba(37, 99, 235, 0.25);
+  /* Color Palette - Vibrant Modern Sunset Gourmet */
+  --primary: #f95738;
+  --primary-hover: #e03f20;
+  --primary-light: #fff3f0;
+  --primary-glow: rgba(249, 87, 56, 0.32);
+  --accent-gold: #f59e0b;
+  --accent-gold-light: #fef3c7;
 
   --accent-whatsapp: #10b981;
   --accent-whatsapp-hover: #059669;
 
-  --bg-body: #f8fafc;
+  --bg-body: #fafaf9;
   --bg-surface: #ffffff;
   --bg-surface-elevated: #ffffff;
-  --border-color: #e2e8f0;
-  --border-subtle: #f1f5f9;
+  --border-color: #e7e5e4;
+  --border-subtle: #f5f5f4;
 
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #64748b;
-  --text-light: #94a3b8;
+  --text-primary: #1c1917;
+  --text-secondary: #57534e;
+  --text-muted: #78716c;
+  --text-light: #a8a29e;
 
-  /* Sidebar Theme (Ultra-sleek dark tone) */
-  --sidebar-bg: #0b1120;
-  --sidebar-surface: #131b2e;
-  --sidebar-border: #1e293b;
+  /* Sidebar Theme (Ultra-sleek modern obsidian) */
+  --sidebar-bg: #0c0f17;
+  --sidebar-surface: #141a29;
+  --sidebar-border: #1e2638;
   --sidebar-text: #94a3b8;
-  --sidebar-text-hover: #f1f5f9;
+  --sidebar-text-hover: #f8fafc;
   --sidebar-text-active: #ffffff;
-  --sidebar-active-bg: rgba(37, 99, 235, 0.15);
+  --sidebar-active-bg: rgba(249, 87, 56, 0.16);
   --sidebar-width: 270px;
 
   /* Elevation Shadows */
@@ -118,7 +120,7 @@
   width: 40px;
   height: 40px;
   border-radius: var(--radius-md);
-  background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+  background: linear-gradient(135deg, #f95738 0%, #fb923c 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -143,13 +145,13 @@
 }
 
 .brand-name span {
-  color: #38bdf8;
+  color: #fb923c;
 }
 
 .brand-tag {
   font-size: 0.68rem;
   font-weight: 700;
-  color: #38bdf8;
+  color: #fbbf24;
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
@@ -248,7 +250,7 @@
 .nav-link.active {
   color: var(--sidebar-text-active);
   background: var(--sidebar-active-bg);
-  border: 1px solid rgba(59, 130, 246, 0.3);
+  border: 1px solid rgba(249, 87, 56, 0.35);
 }
 
 .nav-link.active::before {
@@ -258,7 +260,7 @@
   top: 6px;
   bottom: 6px;
   width: 4px;
-  background: #38bdf8;
+  background: #f95738;
   border-radius: 0 4px 4px 0;
 }
 
@@ -270,15 +272,15 @@
 
 .nav-link:hover .nav-icon,
 .nav-link.active .nav-icon {
-  color: #38bdf8;
+  color: #fb923c;
 }
 
 .nav-badge {
   margin-left: auto;
   font-size: 0.68rem;
   font-weight: 700;
-  background-color: rgba(56, 189, 248, 0.15);
-  color: #38bdf8;
+  background-color: rgba(249, 87, 56, 0.18);
+  color: #ff7849;
   padding: 2px 7px;
   border-radius: 9999px;
 }
@@ -317,8 +319,8 @@
 }
 
 .sidebar-cat-chip.active {
-  color: #38bdf8;
-  background: rgba(56, 189, 248, 0.1);
+  color: #fb923c;
+  background: rgba(249, 87, 56, 0.12);
   font-weight: 700;
 }
 
@@ -331,8 +333,8 @@
 
 .sidebar-cart-card {
   width: 100%;
-  background: linear-gradient(135deg, rgba(37, 99, 235, 0.15) 0%, rgba(79, 70, 229, 0.2) 100%);
-  border: 1px solid rgba(59, 130, 246, 0.25);
+  background: linear-gradient(135deg, rgba(249, 87, 56, 0.18) 0%, rgba(245, 158, 11, 0.2) 100%);
+  border: 1px solid rgba(249, 87, 56, 0.3);
   border-radius: var(--radius-lg);
   padding: 12px 14px;
   display: flex;
@@ -345,8 +347,8 @@
 }
 
 .sidebar-cart-card:hover {
-  background: linear-gradient(135deg, rgba(37, 99, 235, 0.25) 0%, rgba(79, 70, 229, 0.35) 100%);
-  border-color: #38bdf8;
+  background: linear-gradient(135deg, rgba(249, 87, 56, 0.28) 0%, rgba(245, 158, 11, 0.32) 100%);
+  border-color: #fb923c;
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
@@ -354,14 +356,14 @@
 .cart-card-icon {
   width: 38px;
   height: 38px;
-  background: #2563eb;
+  background: linear-gradient(135deg, #f95738 0%, #ea580c 100%);
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   flex-shrink: 0;
-  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.4);
+  box-shadow: 0 4px 10px rgba(249, 87, 56, 0.4);
 }
 
 .cart-badge-count {
@@ -458,7 +460,7 @@
 .brand-badge-mini {
   width: 30px;
   height: 30px;
-  background: #2563eb;
+  background: linear-gradient(135deg, #f95738 0%, #fb923c 100%);
   color: #ffffff;
   border-radius: 8px;
   display: flex;
@@ -491,7 +493,7 @@
    ========================================================================== */
 
 .hero-banner-modern {
-  background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #fffbf7 100%);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-xl);
   padding: 38px 40px;
@@ -509,7 +511,7 @@
   width: 250px;
   height: 250px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(37, 99, 235, 0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(249, 87, 56, 0.12) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -540,7 +542,7 @@
 }
 
 .title-gradient {
-  background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+  background: linear-gradient(135deg, #f95738 0%, #f59e0b 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
